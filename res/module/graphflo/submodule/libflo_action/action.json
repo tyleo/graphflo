@@ -1,0 +1,10 @@
+{
+    "actions": [
+        "add_node",
+        "add_node_response",
+        "connect_nodes",
+        "connect_nodes_response",
+        "get",
+        "get_response"
+    ]
+}

@@ -1,0 +1,20 @@
+{
+    "handlers": [
+        {
+            "event": { "module": "libflo_action", "name": "construct" },
+            "function": { "module": "graphflo", "name": "action_construct" }
+        },
+        {
+            "event": { "module": "libflo", "name": "construct" },
+            "function": { "module": "graphflo", "name": "construct" }
+        },
+        {
+            "event": { "module": "libflo_action", "name": "dispatch" },
+            "function": { "module": "graphflo", "name": "dispatch" }
+        },
+        {
+            "event": { "module": "libflo_action", "name": "parse" },
+            "function": { "module": "graphflo", "name": "parse" }
+        }
+    ]
+}

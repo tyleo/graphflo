@@ -1,0 +1,18 @@
+{
+    "components": [
+        {
+            "require_info": { "name": "WorkspaceGuifastContainer", "path": "graphflo/graphflo/component/workspace_guifast_container/workspace_guifast_container.js" },
+            "name": "workspace_guifast_container"
+        }
+    ],
+    "menu": [
+        {
+            "label": "Graphflo",
+            "submenu": [
+                { "label": "Open Empty Workspace", "action": { "type": "graphflo new_empty_workspace" } }
+            ]
+        }
+    ],
+    "main_reducer": { "name": "reducer", "path": "graphflo/graphflo/main/reducer.js" },
+    "renderer_reducer": { "name": "reducer", "path": "graphflo/graphflo/reducer/reducer.js" }
+}

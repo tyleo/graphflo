@@ -1,0 +1,80 @@
+// funcs
+import java.nio.file.Files;
+
+def create_symlink = {
+    from, to ->
+        def to_file = file(to);
+        if (!to_file.exists()) {
+            def from_file = file(from);
+            Files.createSymbolicLink(to_file.toPath(), from_file.toPath());
+        }
+}
+
+// backend
+task backend_cargo_build(type: Exec) {
+    commandLine "cargo.exe", "build"
+    workingDir "dep/backend"
+}
+
+task backend_symlink() {
+    doLast {
+        create_symlink(
+            "dep\\backend\\target\\debug\\graphflo.dll",
+            "res\\module\\graphflo\\submodule\\libflo\\graphflo.dll"
+        )
+    }
+}
+
+task backend_build(dependsOn: [backend_cargo_build, backend_symlink])
+
+backend_symlink.mustRunAfter backend_cargo_build
+
+// frontend
+task frontend_npm_install(type: Exec) {
+    commandLine "npm.cmd", "install"
+    workingDir "dep/frontend"
+}
+
+task frontend_init_symlink() {
+    doLast {
+        create_symlink(
+            "dep\\frontend\\src",
+            "dep\\frontend\\node_modules\\graphflo"
+        )
+
+        create_symlink(
+            "..\\guifast\\dep\\guifast_shared\\frontend\\src",
+            "dep\\frontend\\node_modules\\guifast_shared"
+        )
+    }
+}
+
+task frontend_init(dependsOn: [
+    frontend_npm_install,
+    frontend_init_symlink
+])
+
+task frontend_tsc_build(type: Exec) {
+    commandLine "tsc.cmd"
+    workingDir "dep/frontend"
+}
+
+task frontend_symlink() {
+    doLast {
+        create_symlink(
+            "dep\\frontend\\node_modules",
+            "res\\module\\graphflo\\submodule\\guifast\\graphflo"
+        )
+    }
+}
+
+task frontend_build(dependsOn: [frontend_tsc_build, frontend_symlink])
+
+frontend_init_symlink.mustRunAfter frontend_npm_install
+
+frontend_symlink.mustRunAfter frontend_tsc_build
+
+// project
+task build(dependsOn: [backend_build, frontend_build])
+
+task init(dependsOn: [frontend_init])
