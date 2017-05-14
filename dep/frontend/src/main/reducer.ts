@@ -12,6 +12,7 @@ export function reducer(
             const newEmptyWorkspace = action as GraphfloAction.NewEmptyWorkspace.Action;
 
             Guifast.sendToGuifast(Guifast.WindowRequested.make("graphflo workspace_guifast_container"));
+            break;
         }
     }
 }
