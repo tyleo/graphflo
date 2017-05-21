@@ -4,7 +4,7 @@ import { addNode, changeAddNodeMenuVisibility, selectAddNodeItem } from "graphfl
 import { AddNodeItemProps, AddNodeItemStyle, AddNodeItemTextCss } from "graphflo/component";
 import { StyleManager } from "graphflo/util";
 
-import { sendToSharedStore } from "guifast_shared/guifast/send_to_shared_store";
+import { sendToSharedRenderer } from "guifast_shared/guifast/send_to_shared_renderer";
 import { sendToLibflo } from "guifast_shared/guifast/send_to_libflo";
 
 const mapManagerToStyle = (styleManager: StyleManager): AddNodeItemStyle => {
@@ -19,13 +19,13 @@ const mapManagerToStyle = (styleManager: StyleManager): AddNodeItemStyle => {
 };
 
 const onClick = (e: React.MouseEvent<any>, props: AddNodeItemProps) => {
-    sendToSharedStore(changeAddNodeMenuVisibility(false));
+    sendToSharedRenderer(changeAddNodeMenuVisibility(false));
     sendToLibflo(addNode(props.state.key));
 };
 
 const onMouseMove = (e: React.MouseEvent<any>, props: AddNodeItemProps) => {
     if (!props.isSelected) {
-        sendToSharedStore(selectAddNodeItem(props.filteredItemIndex));
+        sendToSharedRenderer(selectAddNodeItem(props.filteredItemIndex));
     }
 };
 

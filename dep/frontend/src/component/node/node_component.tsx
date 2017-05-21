@@ -5,7 +5,7 @@ import { LeftRightNodeConnectorHolderCss, MainNodeConnectorHolderCss, MainNodeCo
 import { NodeDesc } from "graphflo/serialization";
 import { StyleManager } from "graphflo/util";
 
-import { sendToSharedStore } from "guifast_shared/guifast/send_to_shared_store";
+import { sendToSharedRenderer } from "guifast_shared/guifast/send_to_shared_renderer";
 
 const getRepositionDueToBorderThickness = (props: NodeProps, style: NodeStyle): Vector2 => {
     if (props.state.isSelected) {
@@ -40,8 +40,8 @@ const mapManagerToStyle = (styleManager: StyleManager): NodeStyle => {
 
 const onMouseDown = (e: React.MouseEvent<any>, props: NodeProps) => {
     const pageLocation = new Vector2(e.pageX, e.pageY);
-    sendToSharedStore(selectNode(props.state.index));
-    sendToSharedStore(startDraggingNode(props.state.index, pageLocation));
+    sendToSharedRenderer(selectNode(props.state.index));
+    sendToSharedRenderer(startDraggingNode(props.state.index, pageLocation));
 
     e.stopPropagation();
     e.preventDefault();

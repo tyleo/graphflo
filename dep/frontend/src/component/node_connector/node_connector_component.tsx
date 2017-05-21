@@ -7,7 +7,7 @@ import { NodeConnectorDesc } from "graphflo/serialization";
 import { NodeConnectorState, NodeConnectorType } from "graphflo/state";
 import { StyleManager } from "graphflo/util";
 
-import { sendToSharedStore } from "guifast_shared/guifast/send_to_shared_store";
+import { sendToSharedRenderer } from "guifast_shared/guifast/send_to_shared_renderer";
 import { sendToLibflo } from "guifast_shared/guifast/send_to_libflo";
 
 const getLeftNodeConnectorDesc = (props: NodeConnectorProps, state: NodeConnectorState): NodeConnectorDesc | undefined => {
@@ -45,7 +45,7 @@ const mapManagerToStyle = (styleManager: StyleManager): NodeConnectorStyle => {
 };
 
 const onMouseDown = (e: React.MouseEvent<any>, props: NodeConnectorProps, state: NodeConnectorState) => {
-    sendToSharedStore(startDraggingEdge(props.index, state.type));
+    sendToSharedRenderer(startDraggingEdge(props.index, state.type));
 
     e.stopPropagation();
     e.preventDefault();
@@ -68,7 +68,7 @@ const onMouseUp = (e: React.MouseEvent<any>, props: NodeConnectorProps, state: N
             }
         }
 
-        sendToSharedStore(stopDraggingEdge());
+        sendToSharedRenderer(stopDraggingEdge());
     }
 };
 
@@ -77,7 +77,7 @@ const onShapeMounted = (e: HTMLDivElement, props: NodeConnectorProps, state: Nod
         const rect = e.getBoundingClientRect();
         const position =  new Vector2((rect.left + rect.right) / 2, (rect.top + rect.bottom) / 2);
         if (state.position === undefined || position.x !== state.position.x || position.y !== state.position.y) {
-            sendToSharedStore(setNodeConnectorPosition(props.index, position));
+            sendToSharedRenderer(setNodeConnectorPosition(props.index, position));
         }
         props.workspaceData.nodeConnectorPositions[props.index] = position;
     }

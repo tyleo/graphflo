@@ -5,7 +5,7 @@ import { addNode, changeAddNodeMenuVisibility, nodeAddMenuInputChanged, selectAd
 import { AddNodeItemComponent, AddNodeMenuCss, AddNodeMenuProps, AddNodeMenuStyle, InputCss } from "graphflo/component";
 import { StyleManager } from "graphflo/util";
 
-import { sendToSharedStore, sendToLibflo } from "guifast_shared";
+import { sendToSharedRenderer, sendToLibflo } from "guifast_shared";
 
 const mapManagerToStyle = (styleManager: StyleManager): AddNodeMenuStyle => {
     return {
@@ -31,7 +31,7 @@ const onClick = (e: React.MouseEvent<any>, inputElement: HTMLInputElement | unde
 const onInputChange = (e: React.FormEvent<any>, props: AddNodeMenuProps) => {
     const target = e.target as HTMLInputElement;
     if (props.state.moduleId !== undefined) {
-        sendToSharedStore(nodeAddMenuInputChanged(target.value));
+        sendToSharedRenderer(nodeAddMenuInputChanged(target.value));
     } else {
         target.value = "";
     }
@@ -43,14 +43,14 @@ const onInputKeyDown = (e: React.KeyboardEvent<any>, props: AddNodeMenuProps) =>
     switch (e.keyCode) {
         case KeyCode.Up: {
             if (state.selectedFilteredItem > 0) {
-                sendToSharedStore(selectAddNodeItem(state.selectedFilteredItem - 1));
+                sendToSharedRenderer(selectAddNodeItem(state.selectedFilteredItem - 1));
             }
             break;
         }
 
         case KeyCode.Down: {
             if (state.selectedFilteredItem < state.filteredItems.length - 1) {
-                sendToSharedStore(selectAddNodeItem(state.selectedFilteredItem + 1));
+                sendToSharedRenderer(selectAddNodeItem(state.selectedFilteredItem + 1));
             }
             break;
         }
@@ -58,7 +58,7 @@ const onInputKeyDown = (e: React.KeyboardEvent<any>, props: AddNodeMenuProps) =>
         case KeyCode.Enter: {
             const selectedFilteredItem = state.filteredItems[state.selectedFilteredItem];
             const selectedItem = state.addNodeItems[selectedFilteredItem];
-            sendToSharedStore(changeAddNodeMenuVisibility(false));
+            sendToSharedRenderer(changeAddNodeMenuVisibility(false));
             sendToLibflo(addNode(selectedItem.key));
             break;
         }

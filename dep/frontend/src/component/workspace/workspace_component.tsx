@@ -5,7 +5,7 @@ import { AddNodeMenuComponent, EdgesComponent, NodesComponent, WorkspaceBackgrou
 import { AddNodeMenuState } from "graphflo/state";
 import { StyleManager } from "graphflo/util";
 
-import { sendToSharedStore } from "guifast_shared/guifast/send_to_shared_store";
+import { sendToSharedRenderer } from "guifast_shared/guifast/send_to_shared_renderer";
 
 const mapManagerToStyle = (styleManager: StyleManager): WorkspaceStyle => {
     return {
@@ -35,13 +35,13 @@ const renderNodeAddMenu = (props: WorkspaceProps, key: number) => {
 
 const onClick = (e: React.MouseEvent<any>, props: WorkspaceProps) => {
     if (props.state.addNodeMenuState.isVisible) {
-        sendToSharedStore(changeAddNodeMenuVisibility(false));
+        sendToSharedRenderer(changeAddNodeMenuVisibility(false));
     }
 };
 
 const onMouseDown = (e: React.MouseEvent<any>, props: WorkspaceProps) => {
-    sendToSharedStore(selectNode(undefined));
-    sendToSharedStore(startDraggingNode(undefined, Vector2.zero));
+    sendToSharedRenderer(selectNode(undefined));
+    sendToSharedRenderer(startDraggingNode(undefined, Vector2.zero));
 };
 
 const onMouseUp = (e: React.MouseEvent<any>, props: WorkspaceProps) => {
@@ -50,11 +50,11 @@ const onMouseUp = (e: React.MouseEvent<any>, props: WorkspaceProps) => {
         const pageLocation = new Vector2(e.pageX, e.pageY);
         const dragDistance = pageLocation.subtract(moveNodeState.moveBeginLocation);
 
-        sendToSharedStore(finishDraggingNode(moveNodeState.movingNode!, dragDistance));
+        sendToSharedRenderer(finishDraggingNode(moveNodeState.movingNode!, dragDistance));
     }
 
     if (props.state.connectNodeState !== undefined) {
-        sendToSharedStore(stopDraggingEdge());
+        sendToSharedRenderer(stopDraggingEdge());
     }
 };
 
@@ -66,8 +66,8 @@ export class WorkspaceComponent extends React.Component<WorkspaceProps, {}> {
             const pageLocation = new Vector2(e.pageX, e.pageY);
             const clickLocation = pageLocation.subtract(this.data.position).add(this.data.scrollPosition);
 
-            sendToSharedStore(setAddNodeLocation(clickLocation));
-            sendToSharedStore(changeAddNodeMenuVisibility(true));
+            sendToSharedRenderer(setAddNodeLocation(clickLocation));
+            sendToSharedRenderer(changeAddNodeMenuVisibility(true));
         }
     }
 
