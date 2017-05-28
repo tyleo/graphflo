@@ -1,5 +1,5 @@
-import { Vector2 } from "guifast_shared";
-import { NodeConnectorType } from "graphflo/state";
+import * as Graphflo from "graphflo";
+import * as Guifast from "guifast_shared";
 
 export interface NodeConnectorState {
     readonly backgroundColor: string;
@@ -7,6 +7,6 @@ export interface NodeConnectorState {
     readonly index: number;
     readonly indexInNode: number;
     readonly nodeIndex: number;
-    readonly position: Vector2 | undefined;
-    readonly type: NodeConnectorType;
+    readonly position: Guifast.Vector2 | undefined;
+    readonly type: Graphflo.NodeConnectorType;
 }

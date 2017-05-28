@@ -1,8 +1,8 @@
 {
     "components": [
         {
-            "require_info": { "name": "WorkspaceGuifastContainer", "path": "graphflo/graphflo/component/workspace_guifast_container/workspace_guifast_container.js" },
-            "name": "workspace_guifast_container"
+            "require_info": { "name": "WorkspaceContainer", "path": "graphflo/graphflo/component/workspace_container/workspace_container.js" },
+            "name": "workspace_container"
         }
     ],
     "menu": [
@@ -13,6 +13,6 @@
             ]
         }
     ],
-    "main_reducer": { "name": "reducer", "path": "graphflo/graphflo/main/reducer.js" },
+    "main_reducer": { "name": "mainReducer", "path": "graphflo/graphflo/reducer/main_reducer.js" },
     "renderer_reducer": { "name": "reducer", "path": "graphflo/graphflo/reducer/reducer.js" }
 }

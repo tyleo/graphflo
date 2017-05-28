@@ -1,22 +1,20 @@
-import { String } from "graphflo";
-import { NodeConnectorType } from "graphflo/state";
-import { Action, actionStrId } from "guifast_shared";
+import * as Graphflo from "graphflo";
+import * as Guifast from "guifast_shared";
 
-export interface StartDraggingEdge extends Action {
-    connectorIndex: number;
-    connectorType: NodeConnectorType;
-}
+export namespace StartDraggingEdge {
+    const str = "start_dragging_edge";
+    export const id = Guifast.makeStrId(Graphflo.String.module, str);
 
-export const startDraggingEdgeStr = "start_dragging_edge";
-export const startDraggingEdgeId = actionStrId(String.module, startDraggingEdgeStr);
+    export interface Action extends Guifast.Action {
+        readonly connectorIndex: number;
+        readonly connectorType: Graphflo.NodeConnectorType;
+    }
 
-export const startDraggingEdge = (
-    connectorIndex: number,
-    connectorType: NodeConnectorType
-): StartDraggingEdge => {
-    return {
-        type: startDraggingEdgeId,
-        connectorIndex: connectorIndex,
-        connectorType: connectorType
+    export const make = (connectorIndex: number, connectorType: Graphflo.NodeConnectorType): Action => {
+        return {
+            type: id,
+            connectorIndex: connectorIndex,
+            connectorType: connectorType
+        };
     };
-};
+}

@@ -1,4 +1,4 @@
-import { NodeStyle } from "graphflo/component/node";
+import * as Graphflo from "graphflo";
 
 export class LeftRightNodeConnectorHolderCss {
     public readonly alignItems: "flex-start" | "flex-end";
@@ -10,7 +10,7 @@ export class LeftRightNodeConnectorHolderCss {
     public readonly paddingTop: number;
 
     public constructor(
-        style: NodeStyle,
+        style: Graphflo.NodeStyle,
         isLeft: boolean
     ) {
         this.alignItems =

@@ -1,9 +1,9 @@
-import { NodeStyle } from "graphflo/component/node";
+import * as Graphflo from "graphflo";
 
 export class PaddingBetweenNodeConnectorsCss {
     public readonly height: number;
 
-    public constructor(style: NodeStyle) {
+    public constructor(style: Graphflo.NodeStyle) {
         this.height = style.paddingBetweenNodeConnectors!;
     }
 }

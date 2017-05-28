@@ -1,12 +1,7 @@
-import { Action, NumberMap, Vector2 } from "guifast_shared";
-import { GetResponse, getResponseId, ChangeAddNodeMenuVisibility, changeAddNodeMenuVisibilityId, NodeAddMenuInputChanged, nodeAddMenuInputChangedId, SelectAddNodeItem, selectAddNodeItemId } from "graphflo/action";
-import { addNodeItemReducer } from "graphflo/reducer"
-import { KeyedNodeDesc } from "graphflo/serialization";
-import { AddNodeItemState, AddNodeMenuState } from "graphflo/state";
+import * as Graphflo from "graphflo";
+import * as Guifast from "guifast_shared";
 
-import { UndefinedAction } from "guifast_shared/action";
-
-const fuzzySearch = (items: Array<number>, nodeDescs: Array<KeyedNodeDesc>, searchString: string) => {
+const fuzzySearch = (items: Array<number>, nodeDescs: Array<Graphflo.KeyedNodeDesc>, searchString: string) => {
     const searchStringLower = searchString.toLowerCase();
 
     return items.filter(
@@ -22,7 +17,7 @@ const fuzzySearch = (items: Array<number>, nodeDescs: Array<KeyedNodeDesc>, sear
         );
 };
 
-const getSortedAddNodeItems = (items: Array<AddNodeItemState>, nodeDescs: Array<KeyedNodeDesc>) => {
+const getSortedAddNodeItems = (items: Array<Graphflo.AddNodeItemState>, nodeDescs: Array<Graphflo.KeyedNodeDesc>) => {
     const itemsCopy = [...items];
     itemsCopy.sort(
         (lhs, rhs) => {
@@ -40,9 +35,9 @@ const getSortedAddNodeItems = (items: Array<AddNodeItemState>, nodeDescs: Array<
     return itemsCopy.map(item => item.key);
 };
 
-const noop = (state: AddNodeMenuState, action: Action): AddNodeMenuState => {
+const noop = (state: Graphflo.AddNodeMenuState, action: Guifast.Action): Graphflo.AddNodeMenuState => {
     return {
-        addNodeItems: state.addNodeItems.map(item => addNodeItemReducer(item, action)),
+        addNodeItems: state.addNodeItems.map(item => Graphflo.addNodeItemReducer(item, action)),
         sortedAddNodeItems: state.sortedAddNodeItems,
         filteredItems: state.filteredItems,
         isVisible: state.isVisible,
@@ -55,28 +50,28 @@ const noop = (state: AddNodeMenuState, action: Action): AddNodeMenuState => {
 };
 
 export const addNodeMenuReducer = (
-    state: AddNodeMenuState = {
+    state: Graphflo.AddNodeMenuState = {
         addNodeItems: [],
         sortedAddNodeItems: [],
         filteredItems: [],
         isVisible: false,
         moduleId: undefined,
-        position: new Vector2(100, 100),
+        position: new Guifast.Vector2(100, 100),
         searchString: "",
         selectedFilteredItem: 0,
-        size: new Vector2(400, 800)
+        size: new Guifast.Vector2(400, 800)
     },
-    action: Action = UndefinedAction.make(),
-    nodeDescs: Array<KeyedNodeDesc>
-): AddNodeMenuState => {
+    action: Guifast.Action = Guifast.UndefinedAction.make(),
+    nodeDescs: Array<Graphflo.KeyedNodeDesc>
+): Graphflo.AddNodeMenuState => {
     switch (action.type) {
-        case changeAddNodeMenuVisibilityId: {
-            const changeNodeAddMenuVisibility = action as ChangeAddNodeMenuVisibility;
+        case Graphflo.ChangeAddNodeMenuVisibility.id: {
+            const changeNodeAddMenuVisibility = action as Graphflo.ChangeAddNodeMenuVisibility.Action;
 
             const sortedAddNodeItems = state.sortedAddNodeItems;
 
             return {
-                addNodeItems: state.addNodeItems.map(item => addNodeItemReducer(item, action)),
+                addNodeItems: state.addNodeItems.map(item => Graphflo.addNodeItemReducer(item, action)),
                 sortedAddNodeItems: sortedAddNodeItems,
                 filteredItems: [...sortedAddNodeItems],
                 isVisible: changeNodeAddMenuVisibility.isVisible,
@@ -88,8 +83,8 @@ export const addNodeMenuReducer = (
             };
         }
 
-        case getResponseId: {
-            const getResponse = action as GetResponse;
+        case Graphflo.GetResponse.id: {
+            const getResponse = action as Graphflo.GetResponse.Action;
             const addNodeItems = getResponse.node_descs.map(
                 item => {
                     return {
@@ -112,13 +107,13 @@ export const addNodeMenuReducer = (
             };
         }
 
-        case nodeAddMenuInputChangedId: {
-            const nodeAddMenuInputChanged = action as NodeAddMenuInputChanged;
+        case Graphflo.NodeAddMenuInputChanged.id: {
+            const nodeAddMenuInputChanged = action as Graphflo.NodeAddMenuInputChanged.Action;
             const searchString = nodeAddMenuInputChanged.value;
             const filteredItems = fuzzySearch(state.sortedAddNodeItems, nodeDescs, searchString);
 
             return {
-                addNodeItems: state.addNodeItems.map(item => addNodeItemReducer(item, action)),
+                addNodeItems: state.addNodeItems.map(item => Graphflo.addNodeItemReducer(item, action)),
                 sortedAddNodeItems: state.sortedAddNodeItems,
                 filteredItems: filteredItems,
                 isVisible: state.isVisible,
@@ -130,11 +125,11 @@ export const addNodeMenuReducer = (
             };
         }
 
-        case selectAddNodeItemId: {
-            const selectAddNodeItem = action as SelectAddNodeItem;
+        case Graphflo.SelectAddNodeItem.id: {
+            const selectAddNodeItem = action as Graphflo.SelectAddNodeItem.Action;
 
             return {
-                addNodeItems: state.addNodeItems.map(item => addNodeItemReducer(item, action)),
+                addNodeItems: state.addNodeItems.map(item => Graphflo.addNodeItemReducer(item, action)),
                 sortedAddNodeItems: state.sortedAddNodeItems,
                 filteredItems: state.filteredItems,
                 isVisible: state.isVisible,

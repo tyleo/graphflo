@@ -1,16 +1,15 @@
-import { String } from "graphflo";
-import { Action, actionStrId, Vector2 } from "guifast_shared";
+import * as Graphflo from "graphflo";
+import * as Guifast from "guifast_shared";
 
-export interface SetAddNodeLocation extends Action {
-    readonly location: Vector2
-}
+export namespace SetAddNodeLocation {
+    const str = "set_add_node_location";
+    export const id = Guifast.makeStrId(Graphflo.String.module, str);
 
-export const setAddNodeLocationStr = "set_add_node_location";
-export const setAddNodeLocationId = actionStrId(String.module, setAddNodeLocationStr);
+    export interface Action extends Guifast.Action {
+        readonly location: Guifast.Vector2
+    }
 
-export const setAddNodeLocation = (location: Vector2): SetAddNodeLocation => {
-    return {
-        type: setAddNodeLocationId,
-        location: location
+    export const make = (location: Guifast.Vector2): Action => {
+        return { type: id, location: location };
     };
-};
+}

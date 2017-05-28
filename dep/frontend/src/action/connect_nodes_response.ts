@@ -1,21 +1,24 @@
-import { String } from "graphflo";
-import { Action, actionStrId } from "guifast_shared";
+import * as Graphflo from "graphflo";
+import * as Guifast from "guifast_shared";
 
-export const connectNodesResponseStr = "connect_nodes_response";
-export const connectNodesResponseId = actionStrId(String.module, connectNodesResponseStr);
+export namespace ConnectNodesResponse {
+    const str = "connect_nodes_response";
+    export const id = Guifast.makeStrId(Graphflo.String.module, str);
 
-export interface ConnectNodesResponse extends Action {
-    readonly start_connector_index: number;
-    readonly finish_connector_index: number;
+    export interface Action extends Guifast.Action {
+        readonly start_connector_index: number;
+        readonly finish_connector_index: number;
+    }
+
+    export const make = (
+        startConnectorIndex: number,
+        finishConnectorIndex: number
+    ): Action => {
+        return {
+            type: id,
+            start_connector_index: startConnectorIndex,
+            finish_connector_index: finishConnectorIndex
+        };
+    };
 }
 
-export const connectNodesResponse = (
-    startConnectorIndex: number,
-    finishConnectorIndex: number
-): ConnectNodesResponse => {
-    return {
-        type: connectNodesResponseId,
-        start_connector_index: startConnectorIndex,
-        finish_connector_index: finishConnectorIndex
-    };
-};

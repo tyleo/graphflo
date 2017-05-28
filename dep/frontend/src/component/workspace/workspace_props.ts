@@ -1,6 +1,5 @@
-import { Guifast } from "guifast_shared";
-import { WorkspaceState } from "graphflo/state";
+import * as Graphflo from "graphflo";
 
 export interface WorkspaceProps {
-    readonly state: WorkspaceState;
+    readonly state: Graphflo.WorkspaceState;
 }

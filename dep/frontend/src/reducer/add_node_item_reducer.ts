@@ -1,9 +1,7 @@
-import { Action } from "guifast_shared";
-import { AddNodeItemState } from "graphflo/state";
+import * as Guifast from "guifast_shared";
+import * as Graphflo from "graphflo/state";
 
-import { UndefinedAction } from "guifast_shared/action/undefined_action";
-
-const noop = (state: AddNodeItemState, action: Action): AddNodeItemState => {
+const noop = (state: Graphflo.AddNodeItemState, action: Guifast.Action): Graphflo.AddNodeItemState => {
     return {
         key: state.key,
         moduleId: state.moduleId
@@ -11,11 +9,11 @@ const noop = (state: AddNodeItemState, action: Action): AddNodeItemState => {
 };
 
 export const addNodeItemReducer = (
-    state: AddNodeItemState = {
+    state: Graphflo.AddNodeItemState = {
         key: -1,
         moduleId: undefined,
     },
-    action: Action = UndefinedAction.make()
-): AddNodeItemState => {
+    action: Guifast.Action = Guifast.UndefinedAction.make()
+): Graphflo.AddNodeItemState => {
     return noop(state, action);
 };

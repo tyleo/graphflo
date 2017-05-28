@@ -1,16 +1,14 @@
-import { Vector2 } from "guifast_shared";
-import { KeyedNodeDesc } from "graphflo/serialization";
-import { AddNodeMenuState, ConnectNodeState, MoveNodeState, NodeConnectorsState, NodesState } from "graphflo/state";
-import { StyleManager } from "graphflo/util/style_manager";
+import * as Graphflo from "graphflo";
+import * as Guifast from "guifast_shared";
 
 export interface WorkspaceState {
-    readonly addNodeMenuState: AddNodeMenuState;
-    readonly connectNodeState: ConnectNodeState | undefined;
+    readonly addNodeMenuState: Graphflo.AddNodeMenuState;
+    readonly connectNodeState: Graphflo.ConnectNodeState | undefined;
     readonly moduleId: number | undefined;
-    readonly moveNodeState: MoveNodeState;
-    readonly nextAddNodeLocation: Vector2;
-    readonly nodeDescs: Array<KeyedNodeDesc>;
-    readonly nodeConnectorsState: NodeConnectorsState | undefined;
-    readonly nodesState: NodesState;
-    readonly styleManager: StyleManager;
+    readonly moveNodeState: Graphflo.MoveNodeState;
+    readonly nextAddNodeLocation: Guifast.Vector2;
+    readonly nodeDescs: Array<Graphflo.KeyedNodeDesc>;
+    readonly nodeConnectorsState: Graphflo.NodeConnectorsState | undefined;
+    readonly nodesState: Graphflo.NodesState;
+    readonly styleManager: Graphflo.StyleManager;
 }

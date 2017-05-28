@@ -1,13 +1,11 @@
-import { String } from "graphflo";
-import { Action, actionStrId } from "guifast_shared";
+import * as Graphflo from "graphflo";
+import * as Guifast from "guifast_shared";
 
-export interface IsInitializing extends Action { }
+export namespace IsInitializing {
+    const str = "is_initializing";
+    export const id = Guifast.makeStrId(Graphflo.String.module, str);
 
-export const isInitializingStr = "is_initializing";
-export const isInitializingId = actionStrId(String.module, isInitializingStr);
+    export interface Action extends Guifast.Action { }
 
-export const isInitializing = (): IsInitializing => {
-    return {
-        type: isInitializingId
-    };
-};
+    export const make = (): Action => { return { type: id }; };
+}

@@ -1,6 +1,6 @@
-import { NodeState } from "graphflo/state";
+import * as Graphflo from "graphflo";
 
 export interface NodesState {
-    readonly nodes: Array<NodeState>;
+    readonly nodes: Array<Graphflo.NodeState>;
     readonly moduleId: number;
 }

@@ -1,4 +1,4 @@
-import { AddNodeMenuStyle } from "graphflo/component";
+import * as Graphflo from "graphflo";
 
 export class InputCss {
     public readonly backgroundColor: string;
@@ -12,7 +12,7 @@ export class InputCss {
     public readonly padding: string = "5px 5px";
     public readonly width: string = "100%";
 
-    public constructor(style: AddNodeMenuStyle) {
+    public constructor(style: Graphflo.AddNodeMenuStyle) {
         this.backgroundColor = style.backgroundColor!;
         this.color = style.foregroundColor!;
         this.fontFamily = style.font!;

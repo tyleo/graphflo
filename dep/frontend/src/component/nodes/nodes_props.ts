@@ -1,13 +1,10 @@
-import { WorkspaceData, WorkspaceProps } from "graphflo/component";
-import { KeyedNodeDesc } from "graphflo/serialization";
-import { StyleManager } from "graphflo/util";
-import { NodesState } from "graphflo/state";
+import * as Graphflo from "graphflo";
 
 export interface NodesProps {
-    readonly nodeDescs: Array<KeyedNodeDesc>;
-    readonly workspaceData: WorkspaceData;
-    readonly workspaceProps: WorkspaceProps;
+    readonly nodeDescs: Array<Graphflo.KeyedNodeDesc>;
+    readonly workspaceData: Graphflo.WorkspaceData;
+    readonly workspaceProps: Graphflo.WorkspaceProps;
 
-    readonly state: NodesState;
-    readonly styleManager: StyleManager;
+    readonly state: Graphflo.NodesState;
+    readonly styleManager: Graphflo.StyleManager;
 }

@@ -1,16 +1,15 @@
-import { String } from "graphflo";
-import { Action, actionStrId } from "guifast_shared";
+import * as Graphflo from "graphflo";
+import * as Guifast from "guifast_shared";
 
-export interface SelectAddNodeItem extends Action {
-    readonly filteredItemIndex: number;
-}
+export namespace SelectAddNodeItem {
+    const str = "select_add_node_item";
+    export const id = Guifast.makeStrId(Graphflo.String.module, str)
 
-export const selectAddNodeItemStr = "select_add_node_item";
-export const selectAddNodeItemId = actionStrId(String.module, selectAddNodeItemStr)
+    export interface Action extends Guifast.Action {
+        readonly filteredItemIndex: number;
+    }
 
-export const selectAddNodeItem = (filteredItemIndex: number): SelectAddNodeItem => {
-    return {
-        type: selectAddNodeItemId,
-        filteredItemIndex: filteredItemIndex
+    export const make = (filteredItemIndex: number): Action => {
+        return { type: id, filteredItemIndex: filteredItemIndex };
     };
-};
+}

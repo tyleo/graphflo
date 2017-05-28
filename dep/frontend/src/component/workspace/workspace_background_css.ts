@@ -1,4 +1,4 @@
-import { WorkspaceStyle } from "graphflo/component/workspace";
+import * as Graphflo from "graphflo";
 
 export class WorkspaceBackgroundCss {
     public readonly backgroundColor: string;
@@ -11,7 +11,7 @@ export class WorkspaceBackgroundCss {
     public readonly minWidth: string = "10000px";
     public readonly minHeight: string = "10000px";
 
-    public constructor(style: WorkspaceStyle) {
+    public constructor(style: Graphflo.WorkspaceStyle) {
         this.backgroundColor = style.graphBackgroundColor!;
         this.backgroundImage = WorkspaceBackgroundCss.MakeBackgroundImage(
             style.graphForegroundColor!,

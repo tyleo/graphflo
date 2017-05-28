@@ -1,18 +1,15 @@
-import { String } from "graphflo";
-import { Action, actionStrId } from "guifast_shared";
+import * as Graphflo from "graphflo";
+import * as Guifast from "guifast_shared";
 
-export interface ChangeAddNodeMenuVisibility extends Action {
-    readonly isVisible: boolean;
-}
+export namespace ChangeAddNodeMenuVisibility {
+    const str = "change_add_node_menu_visibility";
+    export const id = Guifast.makeStrId(Graphflo.String.module, str);
 
-export const changeAddNodeMenuVisibilityStr = "change_add_node_menu_visibility";
-export const changeAddNodeMenuVisibilityId = actionStrId(String.module, changeAddNodeMenuVisibilityStr);
+    export interface Action extends Guifast.Action {
+        readonly isVisible: boolean;
+    }
 
-export const changeAddNodeMenuVisibility = (
-    isVisible: boolean
-): ChangeAddNodeMenuVisibility => {
-    return {
-        type: changeAddNodeMenuVisibilityId,
-        isVisible: isVisible
+    export const make = (isVisible: boolean): Action => {
+        return { type: id, isVisible: isVisible };
     };
-};
+}

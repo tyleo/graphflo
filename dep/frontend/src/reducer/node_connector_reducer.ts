@@ -1,17 +1,14 @@
-import { Action, NumberMap } from "guifast_shared";
-import { ConnectNodesResponse, connectNodesResponseId, SetNodeConnectorPosition, setNodeConnectorPositionId } from "graphflo/action";
-import { NodeConnectorState, NodeConnectorType } from "graphflo/state";
-
-import { UndefinedAction } from "guifast_shared/action/undefined_action";
+import * as Graphflo from "graphflo";
+import * as Guifast from "guifast_shared";
 
 export const nodeConnectorReducer = (
-    state: NodeConnectorState,
-    action: Action = UndefinedAction.make(),
+    state: Graphflo.NodeConnectorState,
+    action: Guifast.Action = Guifast.UndefinedAction.make(),
     moduleId: number
-): NodeConnectorState => {
+): Graphflo.NodeConnectorState => {
     switch (action.type) {
-        case connectNodesResponseId: {
-            const connectNodesResponse = action as ConnectNodesResponse;
+        case Graphflo.ConnectNodesResponse.id: {
+            const connectNodesResponse = action as Graphflo.ConnectNodesResponse.Action;
             if (connectNodesResponse.start_connector_index === state.index) {
                 return {
                     ...state,
@@ -29,8 +26,8 @@ export const nodeConnectorReducer = (
             }
         }
 
-        case setNodeConnectorPositionId: {
-            const setNodeConnectorPosition = action as SetNodeConnectorPosition;
+        case Graphflo.SetNodeConnectorPosition.id: {
+            const setNodeConnectorPosition = action as Graphflo.SetNodeConnectorPosition.Action;
             if (state.index === setNodeConnectorPosition.index) {
                 return {
                     ...state,

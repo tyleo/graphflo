@@ -1,27 +1,29 @@
-import { String } from "graphflo";
-import { Action, actionStrId } from "guifast_shared";
+import * as Graphflo from "graphflo";
+import * as Guifast from "guifast_shared";
 
-export interface AddNodeResponse extends Action {
-    readonly index: number;
-    readonly node_desc: number;
-    readonly input_connectors: Array<number>;
-    readonly output_connectors: Array<number>;
-}
+export namespace AddNodeResponse {
+    const str = "add_node_response";
+    export const id = Guifast.makeStrId(Graphflo.String.module, str);
 
-export const addNodeResponseStr = "add_node_response";
-export const addNodeResponseId = actionStrId(String.module, addNodeResponseStr);
-
-export const addNodeResponse = (
-    index: number,
-    nodeDesc: number,
-    inputConnectors: Array<number>,
-    outputConnectors: Array<number>
-): AddNodeResponse => {
-    return {
-        type: addNodeResponseId,
-        index: index,
-        node_desc: nodeDesc,
-        input_connectors: inputConnectors,
-        output_connectors: outputConnectors
+    export interface Action extends Guifast.Action {
+        readonly index: number;
+        readonly node_desc: number;
+        readonly input_connectors: Array<number>;
+        readonly output_connectors: Array<number>;
     }
-};
+
+    export const make = (
+        index: number,
+        nodeDesc: number,
+        inputConnectors: Array<number>,
+        outputConnectors: Array<number>
+    ): Action => {
+        return {
+            type: id,
+            index: index,
+            node_desc: nodeDesc,
+            input_connectors: inputConnectors,
+            output_connectors: outputConnectors
+        };
+    };
+}

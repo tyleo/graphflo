@@ -1,13 +1,8 @@
 import React from "guifast_shared/node_module/react";
-import { KeyCode } from "guifast_shared";
-import { String } from "graphflo";
-import { addNode, changeAddNodeMenuVisibility, nodeAddMenuInputChanged, selectAddNodeItem } from "graphflo/action";
-import { AddNodeItemComponent, AddNodeMenuCss, AddNodeMenuProps, AddNodeMenuStyle, InputCss } from "graphflo/component";
-import { StyleManager } from "graphflo/util";
+import * as Graphflo from "graphflo";
+import * as Guifast from "guifast_shared";
 
-import { sendToSharedRenderer, sendToLibflo } from "guifast_shared";
-
-const mapManagerToStyle = (styleManager: StyleManager): AddNodeMenuStyle => {
+const mapManagerToStyle = (styleManager: Graphflo.StyleManager): Graphflo.AddNodeMenuStyle => {
     return {
         backgroundColor: styleManager.secondaryBackgroundColor,
         borderColor: styleManager.unfocusColor,
@@ -28,38 +23,38 @@ const onClick = (e: React.MouseEvent<any>, inputElement: HTMLInputElement | unde
     }
 };
 
-const onInputChange = (e: React.FormEvent<any>, props: AddNodeMenuProps) => {
+const onInputChange = (e: React.FormEvent<any>, props: Graphflo.AddNodeMenuProps) => {
     const target = e.target as HTMLInputElement;
     if (props.state.moduleId !== undefined) {
-        sendToSharedRenderer(nodeAddMenuInputChanged(target.value));
+        Guifast.sendToSharedRenderer(Graphflo.NodeAddMenuInputChanged.make(target.value));
     } else {
         target.value = "";
     }
 };
 
-const onInputKeyDown = (e: React.KeyboardEvent<any>, props: AddNodeMenuProps) => {
+const onInputKeyDown = (e: React.KeyboardEvent<any>, props: Graphflo.AddNodeMenuProps) => {
     const state = props.state;
 
     switch (e.keyCode) {
-        case KeyCode.Up: {
+        case Guifast.KeyCode.Up: {
             if (state.selectedFilteredItem > 0) {
-                sendToSharedRenderer(selectAddNodeItem(state.selectedFilteredItem - 1));
+                Guifast.sendToSharedRenderer(Graphflo.SelectAddNodeItem.make(state.selectedFilteredItem - 1));
             }
             break;
         }
 
-        case KeyCode.Down: {
+        case Guifast.KeyCode.Down: {
             if (state.selectedFilteredItem < state.filteredItems.length - 1) {
-                sendToSharedRenderer(selectAddNodeItem(state.selectedFilteredItem + 1));
+                Guifast.sendToSharedRenderer(Graphflo.SelectAddNodeItem.make(state.selectedFilteredItem + 1));
             }
             break;
         }
 
-        case KeyCode.Enter: {
+        case Guifast.KeyCode.Enter: {
             const selectedFilteredItem = state.filteredItems[state.selectedFilteredItem];
             const selectedItem = state.addNodeItems[selectedFilteredItem];
-            sendToSharedRenderer(changeAddNodeMenuVisibility(false));
-            sendToLibflo(addNode(selectedItem.key));
+            Guifast.sendToSharedRenderer(Graphflo.ChangeAddNodeMenuVisibility.make(false));
+            Guifast.sendToLibflo(Graphflo.AddNode.make(selectedItem.key));
             break;
         }
     }
@@ -69,13 +64,13 @@ const onInputMounted = (e: HTMLInputElement) => {
     e.focus();
 };
 
-const renderSeparator = (style: AddNodeMenuStyle, key: number) => {
+const renderSeparator = (style: Graphflo.AddNodeMenuStyle, key: number) => {
     return (
         <div key={ "Separator: " + key } style={ { background: style.separatorColor!, height: style.separatorHeight!, width: "100%" } }/>
     );
 };
 
-const renderAddNodeItems = (props: AddNodeMenuProps, style: AddNodeMenuStyle) => {
+const renderAddNodeItems = (props: Graphflo.AddNodeMenuProps, style: Graphflo.AddNodeMenuStyle) => {
     const result = new Array<any>();
     let separatorIndex = 0;
     result.push(renderSeparator(style, separatorIndex));
@@ -86,7 +81,7 @@ const renderAddNodeItems = (props: AddNodeMenuProps, style: AddNodeMenuStyle) =>
 
         const nodeAddItem = props.state.addNodeItems[nodeAddItemIndex];
         result.push(
-            <AddNodeItemComponent
+            <Graphflo.AddNodeItemComponent
                 filteredItemIndex={ index }
                 isSelected={ isSelected }
                 key={ nodeAddItemIndex }
@@ -102,7 +97,7 @@ const renderAddNodeItems = (props: AddNodeMenuProps, style: AddNodeMenuStyle) =>
     return result;
 };
 
-export const AddNodeMenuComponent = (props: AddNodeMenuProps) => {
+export const AddNodeMenuComponent = (props: Graphflo.AddNodeMenuProps) => {
     const state = props.state;
     const style = mapManagerToStyle(props.styleManager);
 
@@ -112,7 +107,7 @@ export const AddNodeMenuComponent = (props: AddNodeMenuProps) => {
         <div
             onClick={ e => onClick(e, inputElement) }
             onContextMenu={ e => onClick(e, inputElement) }
-            style={ new AddNodeMenuCss(style, state) }>
+            style={ new Graphflo.AddNodeMenuCss(style, state) }>
             <input
                 onChange={ e => onInputChange(e, props) }
                 onKeyDown={ e => onInputKeyDown(e, props) }
@@ -122,7 +117,7 @@ export const AddNodeMenuComponent = (props: AddNodeMenuProps) => {
                         onInputMounted(e);
                     }
                 } }
-                style={ new InputCss(style) }/>
+                style={ new Graphflo.InputCss(style) }/>
             <div style={ { display: "flex", flexDirection: "column" } }>
                 { renderAddNodeItems(props, style) }
             </div>

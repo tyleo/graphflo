@@ -1,6 +1,5 @@
-import { RendererState } from "guifast_shared";
-import { WorkspaceState } from "graphflo/state";
+import * as Graphflo from "graphflo";
 
-export interface GraphfloState extends RendererState {
-    readonly workspaceState: WorkspaceState;
+export interface GraphfloState {
+    readonly workspaceState: Graphflo.WorkspaceState;
 }

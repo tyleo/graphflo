@@ -1,6 +1,6 @@
-import { Vector2 } from "guifast_shared";
+import * as Guifast from "guifast_shared";
 
 export interface MoveNodeState {
     readonly movingNode: number | undefined;
-    readonly moveBeginLocation: Vector2;
+    readonly moveBeginLocation: Guifast.Vector2;
 }

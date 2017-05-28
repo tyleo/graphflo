@@ -1,7 +1,7 @@
-import { NodeConnectorDesc } from "graphflo/serialization";
+import * as Graphflo from "graphflo";
 
 export interface NodeConnectorDescs {
     readonly none?: any;
-    readonly constant?: Array<NodeConnectorDesc>;
-    readonly variable?: NodeConnectorDesc;
+    readonly constant?: Array<Graphflo.NodeConnectorDesc>;
+    readonly variable?: Graphflo.NodeConnectorDesc;
 }

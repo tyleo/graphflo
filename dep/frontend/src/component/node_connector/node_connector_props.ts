@@ -1,9 +1,8 @@
-import { WorkspaceData, WorkspaceProps } from "graphflo/component";
-import { NodeDesc } from "graphflo/serialization";
+import * as Graphflo from "graphflo";
 
 export interface NodeConnectorProps {
     readonly index: number;
-    readonly nodeDesc: NodeDesc;
-    readonly workspaceData: WorkspaceData;
-    readonly workspaceProps: WorkspaceProps;
+    readonly nodeDesc: Graphflo.NodeDesc;
+    readonly workspaceData: Graphflo.WorkspaceData;
+    readonly workspaceProps: Graphflo.WorkspaceProps;
 }

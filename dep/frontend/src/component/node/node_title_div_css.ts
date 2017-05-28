@@ -1,4 +1,4 @@
-import { NodeStyle } from "graphflo/component/node";
+import * as Graphflo from "graphflo";
 
 export class NodeTitleDivCss {
     public readonly alignItems = "center";
@@ -12,7 +12,7 @@ export class NodeTitleDivCss {
     public readonly width: string = "100%";
 
     public constructor(
-        style: NodeStyle,
+        style: Graphflo.NodeStyle,
         backgroundColor: string
     ) {
         const borderRadius = style.borderRadius! - style.deselectedBorderThickness!;

@@ -1,13 +1,11 @@
-import { String } from "graphflo";
-import { Action, actionStrId } from "guifast_shared";
+import * as Graphflo from "graphflo";
+import * as Guifast from "guifast_shared";
 
-export interface StopDraggingEdge extends Action { }
+export namespace StopDraggingEdge {
+    const str = "stop_dragging_edge";
+    export const id = Guifast.makeStrId(Graphflo.String.module, str);
 
-export const stopDraggingEdgeStr = "stop_dragging_edge";
-export const stopDraggingEdgeId = actionStrId(String.module, stopDraggingEdgeStr);
+    export interface Action extends Guifast.Action { }
 
-export const stopDraggingEdge = (): StopDraggingEdge => {
-    return {
-        type: stopDraggingEdgeId
-    };
-};
+    export const make = (): Action => { return { type: id }; };
+}

@@ -1,5 +1,5 @@
-import { NodeConnectorState } from "graphflo/state";
+import * as Graphflo from "graphflo";
 
 export interface NodeConnectorsState {
-    readonly nodeConnectors: Array<NodeConnectorState>;
+    readonly nodeConnectors: Array<Graphflo.NodeConnectorState>;
 }

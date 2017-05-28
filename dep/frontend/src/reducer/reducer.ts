@@ -1,31 +1,21 @@
-import { Action, InitializeModule, NumberMap, RootRendererState, UndefinedAction } from "guifast_shared";
-import { String } from "graphflo";
-import { GetResponse, getResponseId, IsInitializing, isInitializingId } from "graphflo/action";
-import { workspaceReducer } from "graphflo/reducer";
-import { GraphfloState } from "graphflo/state";
+import * as Graphflo from "graphflo";
+import * as Guifast from "guifast_shared";
 
-const noop = (state: GraphfloState, action: Action): GraphfloState => {
+const noop = (state: Graphflo.GraphfloState, action: Guifast.Action): Graphflo.GraphfloState => {
     return {
         ...state,
-        reducer: state.reducer,
-        workspaceState: workspaceReducer(state.workspaceState!, action),
+        workspaceState: Graphflo.workspaceReducer(state.workspaceState!, action),
     };
 };
 
 export function reducer(
-    state: GraphfloState | undefined,
-    action: Action = UndefinedAction.make(),
-    guifastState: RootRendererState
-): GraphfloState {
+    state: Graphflo.GraphfloState = {
+         workspaceState: Graphflo.workspaceReducer(undefined, undefined) 
+    },
+    action: Guifast.Action = Guifast.UndefinedAction.make(),
+    rendererRootState: Guifast.RootRendererState
+): Graphflo.GraphfloState {
     switch (action.type) {
-        case InitializeModule.id: {
-            const initializeModule = action as InitializeModule.Action;
-            return {
-                reducer: initializeModule.reducer,
-                workspaceState: workspaceReducer(undefined, undefined),
-            };
-        }
-
         default: {
             return noop(state!, action);
         }

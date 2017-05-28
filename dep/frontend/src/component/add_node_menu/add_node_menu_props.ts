@@ -1,10 +1,8 @@
-import { AddNodeMenuState } from "graphflo/state";
-import { KeyedNodeDesc } from "graphflo/serialization";
-import { StyleManager } from "graphflo/util";
+import * as Graphflo from "graphflo";
 
 export interface AddNodeMenuProps {
-    readonly nodeDescs: Array<KeyedNodeDesc>;
-    readonly styleManager: StyleManager;
+    readonly nodeDescs: Array<Graphflo.KeyedNodeDesc>;
+    readonly styleManager: Graphflo.StyleManager;
 
-    readonly state: AddNodeMenuState;
+    readonly state: Graphflo.AddNodeMenuState;
 }

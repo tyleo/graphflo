@@ -1,22 +1,17 @@
 import React from "guifast_shared/node_module/react";
-import { Vector2 } from "guifast_shared";
-import { changeAddNodeMenuVisibility, selectNode, startDraggingNode } from "graphflo/action";
-import { LeftRightNodeConnectorHolderCss, MainNodeConnectorHolderCss, MainNodeConnectorHolderPaddingCss, NodeConnectorComponent, NodeCss, NodeProps, NodeStyle, NodeTitleDivCss, NodeTitleTextCss, PaddingBetweenNodeConnectorsCss } from "graphflo/component";
-import { NodeDesc } from "graphflo/serialization";
-import { StyleManager } from "graphflo/util";
+import * as Graphflo from "graphflo";
+import * as Guifast from "guifast_shared";
 
-import { sendToSharedRenderer } from "guifast_shared/guifast/send_to_shared_renderer";
-
-const getRepositionDueToBorderThickness = (props: NodeProps, style: NodeStyle): Vector2 => {
+const getRepositionDueToBorderThickness = (props: Graphflo.NodeProps, style: Graphflo.NodeStyle): Guifast.Vector2 => {
     if (props.state.isSelected) {
         const borderThicknessDifference = Math.abs(style.selectedBorderThickness! - style.deselectedBorderThickness!);
-        return new Vector2(borderThicknessDifference, borderThicknessDifference);
+        return new Guifast.Vector2(borderThicknessDifference, borderThicknessDifference);
     } else {
-        return Vector2.zero;
+        return Guifast.Vector2.zero;
     }
 }
 
-const mapManagerToStyle = (styleManager: StyleManager): NodeStyle => {
+const mapManagerToStyle = (styleManager: Graphflo.StyleManager): Graphflo.NodeStyle => {
     return {
         backgroundColor: styleManager.secondaryBackgroundColor,
         borderRadius: styleManager.nodeBorderRadius,
@@ -38,23 +33,23 @@ const mapManagerToStyle = (styleManager: StyleManager): NodeStyle => {
     };
 }
 
-const onMouseDown = (e: React.MouseEvent<any>, props: NodeProps) => {
-    const pageLocation = new Vector2(e.pageX, e.pageY);
-    sendToSharedRenderer(selectNode(props.state.index));
-    sendToSharedRenderer(startDraggingNode(props.state.index, pageLocation));
+const onMouseDown = (e: React.MouseEvent<any>, props: Graphflo.NodeProps) => {
+    const pageLocation = new Guifast.Vector2(e.pageX, e.pageY);
+    Guifast.sendToSharedRenderer(Graphflo.SelectNode.make(props.state.index));
+    Guifast.sendToSharedRenderer(Graphflo.StartDraggingNode.make(props.state.index, pageLocation));
 
     e.stopPropagation();
     e.preventDefault();
 };
 
-const renderLeftConnectors = (props: NodeProps, nodeDesc: NodeDesc, style: NodeStyle) => {
+const renderLeftConnectors = (props: Graphflo.NodeProps, nodeDesc: Graphflo.NodeDesc, style: Graphflo.NodeStyle) => {
     const inputConnectors = props.state.inputConnectors;
 
     const result = new Array<any>();
     let keyIndex = 0;
     for (const connector of inputConnectors) {
         result.push(
-            <NodeConnectorComponent
+            <Graphflo.NodeConnectorComponent
                 key={ keyIndex }
                 index={ connector }
                 nodeDesc={ nodeDesc }
@@ -63,7 +58,7 @@ const renderLeftConnectors = (props: NodeProps, nodeDesc: NodeDesc, style: NodeS
         );
         keyIndex++;
         result.push(
-            <div key={ keyIndex } style={ new PaddingBetweenNodeConnectorsCss(style) }/>
+            <div key={ keyIndex } style={ new Graphflo.PaddingBetweenNodeConnectorsCss(style) }/>
         );
         keyIndex++;
     }
@@ -75,14 +70,14 @@ const renderLeftConnectors = (props: NodeProps, nodeDesc: NodeDesc, style: NodeS
     return result;
 };
 
-const renderRightConnectors = (props: NodeProps, nodeDesc: NodeDesc, style: NodeStyle) => {
+const renderRightConnectors = (props: Graphflo.NodeProps, nodeDesc: Graphflo.NodeDesc, style: Graphflo.NodeStyle) => {
     const outputConnectors = props.state.outputConnectors;
 
     const result = new Array<any>();
     let keyIndex = 0;
     for (const connector of outputConnectors) {
         result.push(
-            <NodeConnectorComponent
+            <Graphflo.NodeConnectorComponent
                 key={ keyIndex }
                 index={ connector }
                 nodeDesc={ nodeDesc }
@@ -91,7 +86,7 @@ const renderRightConnectors = (props: NodeProps, nodeDesc: NodeDesc, style: Node
         );
         keyIndex++;
         result.push(
-            <div key={ keyIndex } style={ new PaddingBetweenNodeConnectorsCss(style) }/>
+            <div key={ keyIndex } style={ new Graphflo.PaddingBetweenNodeConnectorsCss(style) }/>
         );
         keyIndex++;
     }
@@ -103,7 +98,7 @@ const renderRightConnectors = (props: NodeProps, nodeDesc: NodeDesc, style: Node
     return result;
 };
 
-export const NodeComponent = (props: NodeProps) => {
+export const NodeComponent = (props: Graphflo.NodeProps) => {
     const state = props.state;
     const style = mapManagerToStyle(props.styleManager);
     const nodeDesc = props.nodeDescs[props.state.nodeDescIndex].node_desc;
@@ -111,18 +106,18 @@ export const NodeComponent = (props: NodeProps) => {
     return (
         <div
             onMouseDown={ e => onMouseDown(e, props) }
-            style={ new NodeCss(style, state.isSelected, state.extents, state.position.subtract(getRepositionDueToBorderThickness(props, style))) }>
-            <div style={ new NodeTitleDivCss(style, "#c678d7") }>
-                <text style={ new NodeTitleTextCss(style) }>{ nodeDesc.title }</text>
+            style={ new Graphflo.NodeCss(style, state.isSelected, state.extents, state.position.subtract(getRepositionDueToBorderThickness(props, style))) }>
+            <div style={ new Graphflo.NodeTitleDivCss(style, "#c678d7") }>
+                <text style={ new Graphflo.NodeTitleTextCss(style) }>{ nodeDesc.title }</text>
             </div>
-            <div style={ new MainNodeConnectorHolderCss() }>
-                <div style={ new LeftRightNodeConnectorHolderCss(style, true) }>
+            <div style={ new Graphflo.MainNodeConnectorHolderCss() }>
+                <div style={ new Graphflo.LeftRightNodeConnectorHolderCss(style, true) }>
                     { renderLeftConnectors(props, nodeDesc, style) }
                 </div>
 
-                <div style={ new MainNodeConnectorHolderPaddingCss() }/>
+                <div style={ new Graphflo.MainNodeConnectorHolderPaddingCss() }/>
 
-                <div style={ new LeftRightNodeConnectorHolderCss(style, false) }>
+                <div style={ new Graphflo.LeftRightNodeConnectorHolderCss(style, false) }>
                     { renderRightConnectors(props, nodeDesc, style) }
                 </div>
             </div>

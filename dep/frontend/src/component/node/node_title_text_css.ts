@@ -1,4 +1,4 @@
-import { NodeStyle } from "graphflo/component/node";
+import * as Graphflo from "graphflo";
 
 export class NodeTitleTextCss {
     public readonly color: string;
@@ -11,7 +11,7 @@ export class NodeTitleTextCss {
     public readonly WebkitUserSelect: string = "none";
     public readonly whiteSpace: string = "nowrap";
 
-    public constructor(style: NodeStyle) {
+    public constructor(style: Graphflo.NodeStyle) {
         this.color = style.titleFontColor!;
         this.fontFamily = style.titleFont!;
         this.fontSize = style.titleFontSize!;

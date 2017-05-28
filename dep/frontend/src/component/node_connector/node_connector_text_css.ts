@@ -1,4 +1,4 @@
-import { NodeConnectorStyle } from "graphflo/component";
+import * as Graphflo from "graphflo";
 
 export class NodeConnectorTextCss {
     public readonly alignSelf = "center";
@@ -11,7 +11,7 @@ export class NodeConnectorTextCss {
     public readonly WebkitUserSelect: string = "none";
     public readonly whiteSpace: string = "nowrap";
 
-    public constructor(style: NodeConnectorStyle) {
+    public constructor(style: Graphflo.NodeConnectorStyle) {
         this.color = style.textFontColor!;
         this.fontFamily = style.textFont!;
         this.fontSize = style.textFontSize!;

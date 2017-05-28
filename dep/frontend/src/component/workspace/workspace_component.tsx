@@ -1,13 +1,8 @@
 import React from "guifast_shared/node_module/react";
-import { MouseButton, Vector2 } from "guifast_shared";
-import { changeAddNodeMenuVisibility, finishDraggingNode, selectNode, setAddNodeLocation, startDraggingNode, stopDraggingEdge } from "graphflo/action";
-import { AddNodeMenuComponent, EdgesComponent, NodesComponent, WorkspaceBackgroundCss, WorkspaceData, WorkspaceProps, WorkspaceStyle } from "graphflo/component";
-import { AddNodeMenuState } from "graphflo/state";
-import { StyleManager } from "graphflo/util";
+import * as Graphflo from "graphflo";
+import * as Guifast from "guifast_shared";
 
-import { sendToSharedRenderer } from "guifast_shared/guifast/send_to_shared_renderer";
-
-const mapManagerToStyle = (styleManager: StyleManager): WorkspaceStyle => {
+const mapManagerToStyle = (styleManager: Graphflo.StyleManager): Graphflo.WorkspaceStyle => {
     return {
         graphBackgroundColor: styleManager.primaryBackgroundColor,
         graphForegroundColor: styleManager.primaryForegroundColor,
@@ -18,11 +13,11 @@ const mapManagerToStyle = (styleManager: StyleManager): WorkspaceStyle => {
     };
 };
 
-const renderNodeAddMenu = (props: WorkspaceProps, key: number) => {
+const renderNodeAddMenu = (props: Graphflo.WorkspaceProps, key: number) => {
     const state = props.state.addNodeMenuState;
     if (state.isVisible) {
         return (
-            <AddNodeMenuComponent
+            <Graphflo.AddNodeMenuComponent
                 key={ key }
                 nodeDescs={ props.state.nodeDescs }
                 styleManager={ props.state.styleManager }
@@ -33,41 +28,41 @@ const renderNodeAddMenu = (props: WorkspaceProps, key: number) => {
     }
 };
 
-const onClick = (e: React.MouseEvent<any>, props: WorkspaceProps) => {
+const onClick = (e: React.MouseEvent<any>, props: Graphflo.WorkspaceProps) => {
     if (props.state.addNodeMenuState.isVisible) {
-        sendToSharedRenderer(changeAddNodeMenuVisibility(false));
+        Guifast.sendToSharedRenderer(Graphflo.ChangeAddNodeMenuVisibility.make(false));
     }
 };
 
-const onMouseDown = (e: React.MouseEvent<any>, props: WorkspaceProps) => {
-    sendToSharedRenderer(selectNode(undefined));
-    sendToSharedRenderer(startDraggingNode(undefined, Vector2.zero));
+const onMouseDown = (e: React.MouseEvent<any>, props: Graphflo.WorkspaceProps) => {
+    Guifast.sendToSharedRenderer(Graphflo.SelectNode.make(undefined));
+    Guifast.sendToSharedRenderer(Graphflo.StartDraggingNode.make(undefined, Guifast.Vector2.zero));
 };
 
-const onMouseUp = (e: React.MouseEvent<any>, props: WorkspaceProps) => {
+const onMouseUp = (e: React.MouseEvent<any>, props: Graphflo.WorkspaceProps) => {
     if (props.state.moveNodeState.movingNode !== undefined) {
         const moveNodeState = props.state.moveNodeState;
-        const pageLocation = new Vector2(e.pageX, e.pageY);
+        const pageLocation = new Guifast.Vector2(e.pageX, e.pageY);
         const dragDistance = pageLocation.subtract(moveNodeState.moveBeginLocation);
 
-        sendToSharedRenderer(finishDraggingNode(moveNodeState.movingNode!, dragDistance));
+        Guifast.sendToSharedRenderer(Graphflo.FinishDraggingNode.make(moveNodeState.movingNode!, dragDistance));
     }
 
     if (props.state.connectNodeState !== undefined) {
-        sendToSharedRenderer(stopDraggingEdge());
+        Guifast.sendToSharedRenderer(Graphflo.StopDraggingEdge.make());
     }
 };
 
-export class WorkspaceComponent extends React.Component<WorkspaceProps, {}> {
-    private readonly data = new WorkspaceData();
+export class WorkspaceComponent extends React.Component<Graphflo.WorkspaceProps, {}> {
+    private readonly data = new Graphflo.WorkspaceData();
 
-    private onContextMenu(e: React.MouseEvent<any>, props: WorkspaceProps) {
+    private onContextMenu(e: React.MouseEvent<any>, props: Graphflo.WorkspaceProps) {
         if (!props.state.addNodeMenuState.isVisible) {
-            const pageLocation = new Vector2(e.pageX, e.pageY);
+            const pageLocation = new Guifast.Vector2(e.pageX, e.pageY);
             const clickLocation = pageLocation.subtract(this.data.position).add(this.data.scrollPosition);
 
-            sendToSharedRenderer(setAddNodeLocation(clickLocation));
-            sendToSharedRenderer(changeAddNodeMenuVisibility(true));
+            Guifast.sendToSharedRenderer(Graphflo.SetAddNodeLocation.make(clickLocation));
+            Guifast.sendToSharedRenderer(Graphflo.ChangeAddNodeMenuVisibility.make(true));
         }
     }
 
@@ -81,8 +76,8 @@ export class WorkspaceComponent extends React.Component<WorkspaceProps, {}> {
                 <div
                     ref={ e => {
                         if (e !== null) {
-                            this.data.position = new Vector2(e.offsetLeft, e.offsetTop);
-                            e.addEventListener("scroll", () => this.data.scrollPosition = new Vector2(e.scrollLeft, e.scrollTop));
+                            this.data.position = new Guifast.Vector2(e.offsetLeft, e.offsetTop);
+                            e.addEventListener("scroll", () => this.data.scrollPosition = new Guifast.Vector2(e.scrollLeft, e.scrollTop));
                         }
                     } }
                     style={ { overflow: "scroll", position: "relative" } }>
@@ -92,7 +87,7 @@ export class WorkspaceComponent extends React.Component<WorkspaceProps, {}> {
         );
     }
 
-    private renderBody(props: WorkspaceProps, style: WorkspaceStyle) {
+    private renderBody(props: Graphflo.WorkspaceProps, style: Graphflo.WorkspaceStyle) {
         const result = new Array<any>();
         result.push(
             <div
@@ -101,15 +96,15 @@ export class WorkspaceComponent extends React.Component<WorkspaceProps, {}> {
                 onContextMenu={ e => this.onContextMenu(e, props) }
                 onMouseDown={ e => onMouseDown(e, props) }
                 onMouseUp={ e => onMouseUp(e, props) }
-                style={ new WorkspaceBackgroundCss(style) }>
-                <NodesComponent
+                style={ new Graphflo.WorkspaceBackgroundCss(style) }>
+                <Graphflo.NodesComponent
                     key={ 0 }
                     nodeDescs={ props.state.nodeDescs }
                     state={ props.state.nodesState }
                     styleManager={ props.state.styleManager }
                     workspaceData={ this.data }
                     workspaceProps={ props }/>
-                <EdgesComponent
+                <Graphflo.EdgesComponent
                     key={ 1 }
                     workspaceData={ this.data }
                     workspaceProps={ props }/>

@@ -1,6 +1,4 @@
-import { Vector2 } from "guifast_shared";
-import { AddNodeMenuStyle } from "graphflo/component/add_node_menu";
-import { AddNodeMenuState } from "graphflo/state";
+import * as Graphflo from "graphflo";
 
 export class AddNodeMenuCss {
     public readonly backgroundColor: string;
@@ -13,8 +11,8 @@ export class AddNodeMenuCss {
     public readonly width: number;
 
     public constructor(
-        style: AddNodeMenuStyle,
-        state: AddNodeMenuState
+        style: Graphflo.AddNodeMenuStyle,
+        state: Graphflo.AddNodeMenuState
     ) {
         const position = state.position;
         const size = state.size;

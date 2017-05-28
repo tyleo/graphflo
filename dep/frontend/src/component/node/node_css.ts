@@ -1,5 +1,5 @@
-import { NodeStyle } from "graphflo/component/node";
-import { Vector2 } from "guifast_shared";
+import * as Graphflo from "graphflo";
+import * as Guifast from "guifast_shared";
 
 export class NodeCss {
     public readonly alignItems = "center";
@@ -19,10 +19,10 @@ export class NodeCss {
 
 
     public constructor(
-        style: NodeStyle,
+        style: Graphflo.NodeStyle,
         isSelected: boolean,
-        extents: Vector2,
-        position: Vector2
+        extents: Guifast.Vector2,
+        position: Guifast.Vector2
     ) {
         this.backgroundColor = style.backgroundColor!;
         this.border = (

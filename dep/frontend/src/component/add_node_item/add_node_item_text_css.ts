@@ -1,4 +1,4 @@
-import { AddNodeItemStyle } from "graphflo/component";
+import * as Graphflo from "graphflo";
 
 export class AddNodeItemTextCss {
     public readonly color: string;
@@ -8,7 +8,7 @@ export class AddNodeItemTextCss {
     public readonly margin: string;
     public readonly WebkitUserSelect: string = "none";
 
-    public constructor(style: AddNodeItemStyle) {
+    public constructor(style: Graphflo.AddNodeItemStyle) {
         this.color = style.foregroundColor!;
         this.fontFamily = style.font!;
         this.fontSize = style.fontSize!;

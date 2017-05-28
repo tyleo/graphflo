@@ -1,8 +1,7 @@
-import { WorkspaceData, WorkspaceProps } from "graphflo/component";
-import { NodeConnectorState } from "graphflo/state";
+import * as Graphflo from "graphflo";
 
 export interface EdgeProps {
-    readonly outputConnector: NodeConnectorState;
-    readonly workspaceData: WorkspaceData;
-    readonly workspaceProps: WorkspaceProps;
+    readonly outputConnector: Graphflo.NodeConnectorState;
+    readonly workspaceData: Graphflo.WorkspaceData;
+    readonly workspaceProps: Graphflo.WorkspaceProps;
 }

@@ -1,8 +1,8 @@
 import React from "guifast_shared/node_module/react";
-import { Vector2 } from "guifast_shared";
-import { EdgeCss, EdgeProps } from "graphflo/component";
+import * as Graphflo from "graphflo";
+import * as Guifast from "guifast_shared";
 
-const getPath = (props: EdgeProps): string => {
+const getPath = (props: Graphflo.EdgeProps): string => {
     const startIndex = props.outputConnector.index;
     const start = props.workspaceData.nodeConnectorPositions[startIndex];
     const endIndex = props.outputConnector.connectedTo!;
@@ -15,8 +15,8 @@ const getPath = (props: EdgeProps): string => {
         ratio = 1;
     }
 
-    const startControl = new Vector2(length.x * ratio, 0);
-    const endControl = new Vector2(length.x - length.x * ratio, length.y);
+    const startControl = new Guifast.Vector2(length.x * ratio, 0);
+    const endControl = new Guifast.Vector2(length.x - length.x * ratio, length.y);
 
     return (
         "M" + start.x.toString() + "," + start.y.toString() +
@@ -28,8 +28,8 @@ const getPath = (props: EdgeProps): string => {
 }
 
 
-export const EdgeComponent = (props: EdgeProps) => (
-    <svg preserveAspectRatio="none" stroke="white" fillOpacity="0" strokeWidth="5" viewBox="0 0 10000 10000" style={ new EdgeCss() }>
+export const EdgeComponent = (props: Graphflo.EdgeProps) => (
+    <svg preserveAspectRatio="none" stroke="white" fillOpacity="0" strokeWidth="5" viewBox="0 0 10000 10000" style={ new Graphflo.EdgeCss() }>
         <path
             onClick={ (e) => { } }
             style={ { pointerEvents: "visibleStroke" } }

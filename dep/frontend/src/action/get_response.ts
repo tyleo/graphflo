@@ -1,17 +1,15 @@
-import { String } from "graphflo";
-import { KeyedNodeDesc } from "graphflo/serialization";
-import { Action, actionStrId } from "guifast_shared";
+import * as Graphflo from "graphflo";
+import * as Guifast from "guifast_shared";
 
-export interface GetResponse extends Action {
-    node_descs: Array<KeyedNodeDesc>
-}
+export namespace GetResponse {
+    const str = "get_response";
+    export const id = Guifast.makeStrId(Graphflo.String.module, str);
 
-export const getResponseStr = "get_response";
-export const getResponseId = actionStrId(String.module, getResponseStr);
+    export interface Action extends Guifast.Action {
+        readonly node_descs: Array<Graphflo.KeyedNodeDesc>
+    }
 
-export const getResponse = (nodeDescs: Array<KeyedNodeDesc>): GetResponse => {
-    return {
-        type: getResponseId,
-        node_descs: nodeDescs
+    export const make = (nodeDescs: Array<Graphflo.KeyedNodeDesc>): Action => {
+        return { type: id, node_descs: nodeDescs };
     };
-};
+}

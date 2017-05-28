@@ -1,4 +1,4 @@
-import { NodeConnectorStyle } from "graphflo/component";
+import * as Graphflo from "graphflo";
 
 export class NodeConnectorShapeCss {
     public readonly alignSelf = "center";
@@ -9,7 +9,7 @@ export class NodeConnectorShapeCss {
     public readonly width: number;
 
     public constructor(
-        style: NodeConnectorStyle,
+        style: Graphflo.NodeConnectorStyle,
         backgroundColor: string,
         isFilled: boolean
     ) {

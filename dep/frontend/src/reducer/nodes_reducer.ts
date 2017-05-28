@@ -1,33 +1,28 @@
-import { Action, NumberMap, Vector2 } from "guifast_shared";
-import { AddNodeResponse, addNodeResponseId } from "graphflo/action";
-import { KeyedNodeDesc } from "graphflo/serialization";
-import { nodeReducer } from "graphflo/reducer";
-import { NodesState } from "graphflo/state";
+import * as Graphflo from "graphflo";
+import * as Guifast from "guifast_shared";
 
-import { UndefinedAction } from "guifast_shared/action/undefined_action";
-
-const noop = (state: NodesState, action: Action, nextAddNodeLocation: Vector2, nodeDescs: Array<KeyedNodeDesc>): NodesState => {
+const noop = (state: Graphflo.NodesState, action: Guifast.Action, nextAddNodeLocation: Guifast.Vector2, nodeDescs: Array<Graphflo.KeyedNodeDesc>): Graphflo.NodesState => {
     return {
-        nodes: state.nodes.map(node => nodeReducer(node, action, nextAddNodeLocation, nodeDescs)),
+        nodes: state.nodes.map(node => Graphflo.nodeReducer(node, action, nextAddNodeLocation, nodeDescs)),
         moduleId: state.moduleId
     };
 };
 
 export const nodesReducer = (
-    state: NodesState = {
+    state: Graphflo.NodesState = {
         nodes: [],
         moduleId: 0
     },
-    action: Action = UndefinedAction.make(),
-    nextAddNodeLocation: Vector2,
-    nodeDescs: Array<KeyedNodeDesc>,
-): NodesState => {
+    action: Guifast.Action = Guifast.UndefinedAction.make(),
+    nextAddNodeLocation: Guifast.Vector2,
+    nodeDescs: Array<Graphflo.KeyedNodeDesc>,
+): Graphflo.NodesState => {
     switch (action.type) {
-        case addNodeResponseId: {
-            const addNodeResponse = action as AddNodeResponse;
+        case Graphflo.AddNodeResponse.id: {
+            const addNodeResponse = action as Graphflo.AddNodeResponse.Action;
 
-            const newNodes = state.nodes.map(node => nodeReducer(node, action, nextAddNodeLocation, nodeDescs));
-            newNodes[addNodeResponse.index] = nodeReducer(undefined, action, nextAddNodeLocation, nodeDescs);
+            const newNodes = state.nodes.map(node => Graphflo.nodeReducer(node, action, nextAddNodeLocation, nodeDescs));
+            newNodes[addNodeResponse.index] = Graphflo.nodeReducer(undefined, action, nextAddNodeLocation, nodeDescs);
             return {
                 nodes: newNodes,
                 moduleId: state.moduleId

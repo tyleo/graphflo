@@ -1,56 +1,50 @@
-import { Action, NumberMap, Vector2 } from "guifast_shared";
-import { FinishDraggingNode, finishDraggingNodeId, GetResponse, getResponseId, SetAddNodeLocation, setAddNodeLocationId, StartDraggingEdge, startDraggingEdgeId, StartDraggingNode, startDraggingNodeId } from "graphflo/action";
-import { addNodeMenuReducer, nodeConnectorsReducer, nodesReducer } from "graphflo/reducer";
-import { KeyedNodeDesc } from "graphflo/serialization";
-import { ConnectNodeState, NodeConnectorType, WorkspaceState } from "graphflo/state";
-import { StyleManager } from "graphflo/util";
+import * as Graphflo from "graphflo";
+import * as Guifast from "guifast_shared";
 
-import { UndefinedAction } from "guifast_shared/action/undefined_action";
-
-const noop = (state: WorkspaceState, action: Action): WorkspaceState => {
+const noop = (state: Graphflo.WorkspaceState, action: Guifast.Action): Graphflo.WorkspaceState => {
     return {
         ...state,
-        addNodeMenuState: addNodeMenuReducer(state.addNodeMenuState, action, state.nodeDescs),
-        nodeConnectorsState: nodeConnectorsReducer(state.nodeConnectorsState, action, state.moduleId!, state.nodeDescs),
-        nodesState: nodesReducer(state.nodesState, action, state.nextAddNodeLocation, state.nodeDescs),
+        addNodeMenuState: Graphflo.addNodeMenuReducer(state.addNodeMenuState, action, state.nodeDescs),
+        nodeConnectorsState: Graphflo.nodeConnectorsReducer(state.nodeConnectorsState, action, state.moduleId!, state.nodeDescs),
+        nodesState: Graphflo.nodesReducer(state.nodesState, action, state.nextAddNodeLocation, state.nodeDescs),
     };
 };
 
 export const workspaceReducer = (
-    state: WorkspaceState = {
-        addNodeMenuState: addNodeMenuReducer(undefined, undefined, []),
+    state: Graphflo.WorkspaceState = {
+        addNodeMenuState: Graphflo.addNodeMenuReducer(undefined, undefined, []),
         connectNodeState: undefined,
         moduleId: undefined,
         moveNodeState: {
             movingNode: undefined,
-            moveBeginLocation: Vector2.zero
+            moveBeginLocation: Guifast.Vector2.zero
         },
-        nextAddNodeLocation: Vector2.zero,
+        nextAddNodeLocation: Guifast.Vector2.zero,
         nodeConnectorsState: undefined,
         nodeDescs: [],
-        nodesState: nodesReducer(undefined, undefined, Vector2.zero, []),
-        styleManager: new StyleManager(),
+        nodesState: Graphflo.nodesReducer(undefined, undefined, Guifast.Vector2.zero, []),
+        styleManager: new Graphflo.StyleManager(),
     },
-    action: Action = UndefinedAction.make()
-): WorkspaceState => {
+    action: Guifast.Action = Guifast.UndefinedAction.make()
+): Graphflo.WorkspaceState => {
     switch (action.type) {
-        case getResponseId: {
-            const getResponse = action as GetResponse;
+        case Graphflo.GetResponse.id: {
+            const getResponse = action as Graphflo.GetResponse.Action;
             const nodeDescs = getResponse.node_descs.sort(
                 (lhs, rhs) => lhs.key - rhs.key
             );
 
             return {
                 ...state,
-                addNodeMenuState: addNodeMenuReducer(state.addNodeMenuState, action, nodeDescs),
+                addNodeMenuState: Graphflo.addNodeMenuReducer(state.addNodeMenuState, action, nodeDescs),
                 nodeDescs: nodeDescs,
-                nodeConnectorsState: nodeConnectorsReducer(state.nodeConnectorsState, action, state.moduleId!, nodeDescs),
-                nodesState: nodesReducer(state.nodesState, action, state.nextAddNodeLocation, nodeDescs),
+                nodeConnectorsState: Graphflo.nodeConnectorsReducer(state.nodeConnectorsState, action, state.moduleId!, nodeDescs),
+                nodesState: Graphflo.nodesReducer(state.nodesState, action, state.nextAddNodeLocation, nodeDescs),
             };
         }
 
-        case startDraggingEdgeId: {
-            const startDraggingEdge = action as StartDraggingEdge;
+        case Graphflo.StartDraggingEdge.id: {
+            const startDraggingEdge = action as Graphflo.StartDraggingEdge.Action;
             return {
                 ...state,
                 connectNodeState: {
@@ -60,42 +54,42 @@ export const workspaceReducer = (
             };
         }
 
-        case setAddNodeLocationId: {
-            const setAddNodeLocation = action as SetAddNodeLocation;
+        case Graphflo.SetAddNodeLocation.id: {
+            const setAddNodeLocation = action as Graphflo.SetAddNodeLocation.Action;
             return {
                 ...state,
-                addNodeMenuState: addNodeMenuReducer(state.addNodeMenuState, action, state.nodeDescs),
-                nodeConnectorsState: nodeConnectorsReducer(state.nodeConnectorsState, action, state.moduleId!, state.nodeDescs),
+                addNodeMenuState: Graphflo.addNodeMenuReducer(state.addNodeMenuState, action, state.nodeDescs),
+                nodeConnectorsState: Graphflo.nodeConnectorsReducer(state.nodeConnectorsState, action, state.moduleId!, state.nodeDescs),
                 nextAddNodeLocation: setAddNodeLocation.location,
-                nodesState: nodesReducer(state.nodesState, action, state.nextAddNodeLocation, state.nodeDescs),
+                nodesState: Graphflo.nodesReducer(state.nodesState, action, state.nextAddNodeLocation, state.nodeDescs),
             };
         }
 
-        case startDraggingNodeId: {
-            const startDraggingNode = action as StartDraggingNode;
+        case Graphflo.StartDraggingNode.id: {
+            const startDraggingNode = action as Graphflo.StartDraggingNode.Action;
             return {
                 ...state,
-                addNodeMenuState: addNodeMenuReducer(state.addNodeMenuState, action, state.nodeDescs),
+                addNodeMenuState: Graphflo.addNodeMenuReducer(state.addNodeMenuState, action, state.nodeDescs),
                 moveNodeState: {
                     movingNode: startDraggingNode.nodeIndex,
                     moveBeginLocation: startDraggingNode.mouseDownLocation
                 },
-                nodeConnectorsState: nodeConnectorsReducer(state.nodeConnectorsState, action, state.moduleId!, state.nodeDescs),
-                nodesState: nodesReducer(state.nodesState, action, state.nextAddNodeLocation, state.nodeDescs),
+                nodeConnectorsState: Graphflo.nodeConnectorsReducer(state.nodeConnectorsState, action, state.moduleId!, state.nodeDescs),
+                nodesState: Graphflo.nodesReducer(state.nodesState, action, state.nextAddNodeLocation, state.nodeDescs),
             };
         }
 
-        case finishDraggingNodeId: {
-            const finishDraggingNode = action as FinishDraggingNode;
+        case Graphflo.FinishDraggingNode.id: {
+            const finishDraggingNode = action as Graphflo.FinishDraggingNode.Action;
             return {
                 ...state,
-                addNodeMenuState: addNodeMenuReducer(state.addNodeMenuState, action, state.nodeDescs),
+                addNodeMenuState: Graphflo.addNodeMenuReducer(state.addNodeMenuState, action, state.nodeDescs),
                 moveNodeState: {
                     movingNode: undefined,
-                    moveBeginLocation: Vector2.zero
+                    moveBeginLocation: Guifast.Vector2.zero
                 },
-                nodeConnectorsState: nodeConnectorsReducer(state.nodeConnectorsState, action, state.moduleId!, state.nodeDescs),
-                nodesState: nodesReducer(state.nodesState, action, state.nextAddNodeLocation, state.nodeDescs),
+                nodeConnectorsState: Graphflo.nodeConnectorsReducer(state.nodeConnectorsState, action, state.moduleId!, state.nodeDescs),
+                nodesState: Graphflo.nodesReducer(state.nodesState, action, state.nextAddNodeLocation, state.nodeDescs),
             };
         }
 

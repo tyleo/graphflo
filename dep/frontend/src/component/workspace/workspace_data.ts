@@ -1,7 +1,7 @@
-import { Vector2 } from "guifast_shared";
+import * as Guifast from "guifast_shared";
 
 export class WorkspaceData {
-    public position = Vector2.zero;
-    public scrollPosition = Vector2.zero;
-    public readonly nodeConnectorPositions = new Array<Vector2>();
+    public position = Guifast.Vector2.zero;
+    public scrollPosition = Guifast.Vector2.zero;
+    public readonly nodeConnectorPositions = new Array<Guifast.Vector2>();
 }

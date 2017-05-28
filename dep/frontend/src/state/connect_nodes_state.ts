@@ -1,6 +1,6 @@
-import { NodeConnectorType } from "graphflo/state";
+import * as Graphflo from "graphflo";
 
 export interface ConnectNodeState {
     readonly connectorIndex: number;
-    readonly connectorType: NodeConnectorType;
+    readonly connectorType: Graphflo.NodeConnectorType;
 }

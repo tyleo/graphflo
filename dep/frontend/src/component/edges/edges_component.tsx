@@ -1,17 +1,16 @@
 import React from "guifast_shared/node_module/react";
-import { EdgeComponent, EdgesProps } from "graphflo/component";
-import { NodeConnectorType } from "graphflo/state";
+import * as Graphflo from "graphflo";
 
-const renderEdges = (props: EdgesProps) => {
+const renderEdges = (props: Graphflo.EdgesProps) => {
     const nodeConnectors = props.workspaceProps.state.nodeConnectorsState;
     if (nodeConnectors === undefined) {
         return <noscript/>
     } else {
         const result = new Array<any>();
         for (const connector of nodeConnectors.nodeConnectors) {
-            if (connector.type === NodeConnectorType.Start && connector.connectedTo !== undefined) {
+            if (connector.type === Graphflo.NodeConnectorType.Start && connector.connectedTo !== undefined) {
                 result.push(
-                    <EdgeComponent
+                    <Graphflo.EdgeComponent
                         key={ connector.index }
                         outputConnector={ connector }
                         workspaceData={ props.workspaceData }
@@ -23,7 +22,7 @@ const renderEdges = (props: EdgesProps) => {
     }
 };
 
-export const EdgesComponent = (props: EdgesProps) => (
+export const EdgesComponent = (props: Graphflo.EdgesProps) => (
     <div style={{ height: 10000, pointerEvents: "none", position: "absolute", width: 10000 }}>
         { renderEdges(props) }
     </div>

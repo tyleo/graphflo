@@ -1,21 +1,20 @@
-import { String } from "graphflo";
-import { Action, actionStrId, Vector2 } from "guifast_shared";
+import * as Graphflo from "graphflo";
+import * as Guifast from "guifast_shared";
 
-export interface StartDraggingNode extends Action {
-    readonly nodeIndex: number | undefined;
-    readonly mouseDownLocation: Vector2;
-}
+export namespace StartDraggingNode {
+    const str = "start_dragging_node";
+    export const id = Guifast.makeStrId(Graphflo.String.module, str);
 
-export const startDraggingNodeStr = "start_dragging_node";
-export const startDraggingNodeId = actionStrId(String.module, startDraggingNodeStr);
+    export interface Action extends Guifast.Action {
+        readonly nodeIndex: number | undefined;
+        readonly mouseDownLocation: Guifast.Vector2;
+    }
 
-export const startDraggingNode = (
-    nodeIndex: number | undefined,
-    mouseDownLocation: Vector2
-): StartDraggingNode => {
-    return {
-        type: startDraggingNodeId,
-        nodeIndex: nodeIndex,
-        mouseDownLocation: mouseDownLocation
+    export const make = (nodeIndex: number | undefined, mouseDownLocation: Guifast.Vector2): Action => {
+        return {
+            type: id,
+            nodeIndex: nodeIndex,
+            mouseDownLocation: mouseDownLocation
+        };
     };
-};
+}

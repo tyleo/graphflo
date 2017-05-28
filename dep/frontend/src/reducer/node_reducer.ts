@@ -1,12 +1,7 @@
-import { Action, NumberMap, Vector2 } from "guifast_shared";
-import { AddNodeResponse, addNodeResponseId, FinishDraggingNode, finishDraggingNodeId, SelectNode, selectNodeId } from "graphflo/action";
-import { nodeConnectorReducer } from "graphflo/reducer";
-import { NodeConnectorDescs, KeyedNodeDesc } from "graphflo/serialization";
-import { NodeConnectorState, NodeConnectorType, NodeState } from "graphflo/state";
+import * as Graphflo from "graphflo";
+import * as Guifast from "guifast_shared";
 
-import { UndefinedAction } from "guifast_shared/action/undefined_action";
-
-const noop = (state: NodeState, action: Action) => {
+const noop = (state: Graphflo.NodeState, action: Guifast.Action) => {
     return {
         extents: state.extents,
         index: state.index,
@@ -20,27 +15,27 @@ const noop = (state: NodeState, action: Action) => {
 };
 
 export const nodeReducer = (
-    state: NodeState = {
-        extents: new Vector2(300, 200),
+    state: Graphflo.NodeState = {
+        extents: new Guifast.Vector2(300, 200),
         index: -1,
         isSelected: false,
         inputConnectors: [],
         nodeDescIndex: 0,
         moduleId: 0,
-        position: Vector2.zero,
+        position: Guifast.Vector2.zero,
         outputConnectors: []
     },
-    action: Action = UndefinedAction.make(),
-    nextAddNodeLocation: Vector2,
-    nodeDescs: Array<KeyedNodeDesc>,
-): NodeState => {
+    action: Guifast.Action = Guifast.UndefinedAction.make(),
+    nextAddNodeLocation: Guifast.Vector2,
+    nodeDescs: Array<Graphflo.KeyedNodeDesc>,
+): Graphflo.NodeState => {
     switch (action.type) {
-        case addNodeResponseId: {
+        case Graphflo.AddNodeResponse.id: {
             if (state.index !== -1) {
                 return noop(state, action);
             }
 
-            const addNodeResponse = action as AddNodeResponse;
+            const addNodeResponse = action as Graphflo.AddNodeResponse.Action;
 
             return {
                 ...state,
@@ -53,8 +48,8 @@ export const nodeReducer = (
             };
         }
 
-        case finishDraggingNodeId: {
-            const finishDraggingNode = action as FinishDraggingNode;
+        case Graphflo.FinishDraggingNode.id: {
+            const finishDraggingNode = action as Graphflo.FinishDraggingNode.Action;
             if (finishDraggingNode.nodeIndex === state.index) {
                 return {
                     ...state,
@@ -63,8 +58,8 @@ export const nodeReducer = (
             }
         }
 
-        case selectNodeId: {
-            const selectNode = action as SelectNode;
+        case Graphflo.SelectNode.id: {
+            const selectNode = action as Graphflo.SelectNode.Action;
             if (selectNode.nodeIndex === state.index) {
                 return {
                     ...state,

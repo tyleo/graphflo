@@ -1,12 +1,7 @@
-import { Action, NumberMap } from "guifast_shared";
-import { AddNodeResponse, addNodeResponseId } from "graphflo/action";
-import { nodeConnectorReducer } from "graphflo/reducer"
-import { KeyedNodeDesc } from "graphflo/serialization";
-import { NodeConnectorState, NodeConnectorsState, NodeConnectorType } from "graphflo/state";
+import * as Graphflo from "graphflo";
+import * as Guifast from "guifast_shared";
 
-import { UndefinedAction } from "guifast_shared/action/undefined_action";
-
-const newNodeConnectors = (node: number, inputConnectors: Array<number>, outputConnectors: Array<number>, nodeDesc: KeyedNodeDesc): Array<NodeConnectorState> => {
+const newNodeConnectors = (node: number, inputConnectors: Array<number>, outputConnectors: Array<number>, nodeDesc: Graphflo.KeyedNodeDesc): Array<Graphflo.NodeConnectorState> => {
     const result = [];
 
     const inputConnectorDescs = nodeDesc.node_desc.left_connectors;
@@ -21,7 +16,7 @@ const newNodeConnectors = (node: number, inputConnectors: Array<number>, outputC
                 indexInNode: i,
                 nodeIndex: node,
                 position: undefined,
-                type: NodeConnectorType.End
+                type: Graphflo.NodeConnectorType.End
             });
         }
     }
@@ -38,7 +33,7 @@ const newNodeConnectors = (node: number, inputConnectors: Array<number>, outputC
                 indexInNode: i,
                 nodeIndex: node,
                 position: undefined,
-                type: NodeConnectorType.Start
+                type: Graphflo.NodeConnectorType.Start
             });
         }
     }
@@ -46,24 +41,24 @@ const newNodeConnectors = (node: number, inputConnectors: Array<number>, outputC
     return result;
 };
 
-const noop = (state: NodeConnectorsState, action: Action, moduleId: number): NodeConnectorsState => {
+const noop = (state: Graphflo.NodeConnectorsState, action: Guifast.Action, moduleId: number): Graphflo.NodeConnectorsState => {
     return {
         ...state,
-        nodeConnectors: state.nodeConnectors.map(o => nodeConnectorReducer(o, action, moduleId))
+        nodeConnectors: state.nodeConnectors.map(o => Graphflo.nodeConnectorReducer(o, action, moduleId))
     };
 };
 
 export const nodeConnectorsReducer = (
-    state: NodeConnectorsState = {
+    state: Graphflo.NodeConnectorsState = {
         nodeConnectors: []
     },
-    action: Action = UndefinedAction.make(),
+    action: Guifast.Action = Guifast.UndefinedAction.make(),
     moduleId: number,
-    nodeDescs: Array<KeyedNodeDesc>,
-): NodeConnectorsState => {
+    nodeDescs: Array<Graphflo.KeyedNodeDesc>,
+): Graphflo.NodeConnectorsState => {
     switch (action.type) {
-        case addNodeResponseId: {
-            const addNodeResponse = action as AddNodeResponse;
+        case Graphflo.AddNodeResponse.id: {
+            const addNodeResponse = action as Graphflo.AddNodeResponse.Action;
             const nodeDesc = nodeDescs[addNodeResponse.node_desc];
             const newConnectors = newNodeConnectors(addNodeResponse.index, addNodeResponse.input_connectors, addNodeResponse.output_connectors, nodeDesc);
             const resultConnectors = [...state.nodeConnectors];

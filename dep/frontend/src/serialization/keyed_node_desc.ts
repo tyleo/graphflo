@@ -1,6 +1,6 @@
-import { NodeDesc } from "graphflo/serialization";
+import * as Graphflo from "graphflo";
 
 export interface KeyedNodeDesc {
     readonly key: number;
-    readonly node_desc: NodeDesc;
+    readonly node_desc: Graphflo.NodeDesc;
 }

@@ -1,18 +1,15 @@
-import { String } from "graphflo";
-import { Action, actionStrId } from "guifast_shared";
+import * as Graphflo from "graphflo";
+import * as Guifast from "guifast_shared";
 
-export interface AddNode extends Action {
-    readonly node_desc: number;
-}
+export namespace AddNode {
+    const str = "add_node";
+    export const id = Guifast.makeStrId(Graphflo.String.module, str);
 
-export const addNodeStr = "add_node";
-export const addNodeId = actionStrId(String.module, addNodeStr);
-
-export const addNode = (
-    nodeDesc: number
-): AddNode => {
-    return {
-        type: addNodeId,
-        node_desc: nodeDesc,
+    export interface Action extends Guifast.Action {
+        readonly node_desc: number;
     }
-};
+
+    export const make = (nodeDesc: number): Action => {
+        return { type: id, node_desc: nodeDesc };
+    };
+}

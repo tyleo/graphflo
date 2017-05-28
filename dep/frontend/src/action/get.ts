@@ -1,13 +1,11 @@
-import { String } from "graphflo";
-import { Action, actionStrId } from "guifast_shared";
+import * as Graphflo from "graphflo";
+import * as Guifast from "guifast_shared";
 
-export interface Get extends Action { }
+export namespace Get {
+    const str = "get";
+    export const id = Guifast.makeStrId(Graphflo.String.module, str);
 
-export const getStr = "get";
-export const getId = actionStrId(String.module, getStr);
+    export interface Action extends Guifast.Action { }
 
-export const get = (): Get => {
-    return {
-        type: getId
-    };
-};
+    export const make = (): Action => { return { type: id }; };
+}
