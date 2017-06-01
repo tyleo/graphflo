@@ -28,7 +28,7 @@ export class StyleManager {
 
     public readonly workspaceBackgroundMajorLineThickness: number = 2;
     public readonly workspaceBackgroundMinorLineThickness: number = 1;
-    public readonly workspaceBackgroundMajorLineInterval: number = 300;
+    public readonly workspaceBackgroundMajorLineInterval: number = 296;
     public readonly workspaceBackgroundMinorLineInterval: number = 30;
 
     public readonly nodeBorderRadius: number = 15;
